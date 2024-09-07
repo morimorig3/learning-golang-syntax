@@ -38,9 +38,9 @@ func Variables() {
 		Dog            // 1
 		Hamster        // 2
 	)
-	fmt.Println(Cat)     
-	fmt.Println(Dog)     
-	fmt.Println(Hamster) 
+	fmt.Println(Cat)
+	fmt.Println(Dog)
+	fmt.Println(Hamster)
 
 	// 色々できる
 	const (
@@ -48,7 +48,7 @@ func Variables() {
 		Osaka                  // 2
 		Hokkaido = iota + 3    // 5
 	)
-	fmt.Println(Tokyo)    
-	fmt.Println(Osaka)    
-	fmt.Println(Hokkaido) 
+	fmt.Println(Tokyo)
+	fmt.Println(Osaka)
+	fmt.Println(Hokkaido)
 }
