@@ -125,7 +125,7 @@ func Variables() {
 	var m1 map[string]int
 	fmt.Println(m1 == nil) // true 宣言しただけだとnil
 	// m1["ザリア"] = 550 // panic: assignment to entry in nil map
-	
+
 	// mapを使うにはmakeを使用する
 	m2 := make(map[string]int, 10)
 	m2["ザリア"] = 550
@@ -133,9 +133,9 @@ func Variables() {
 
 	// リテラルで初期値を入れることも可能
 	m3 := map[string]int{
-		"ゼニヤッタ":250,
-		"トレーサー":175,
-		"シンメトラ":275,
+		"ゼニヤッタ": 250,
+		"トレーサー": 175,
+		"シンメトラ": 275,
 	}
 	m3["ザリア"] = 550
 	fmt.Println(m3)
@@ -149,7 +149,7 @@ func Variables() {
 	}
 
 	// 列挙
-	for k,v := range m3 {
-		fmt.Printf("key: %v value: %v\n",k, v)
+	for k, v := range m3 {
+		fmt.Printf("key: %v value: %v\n", k, v)
 	}
 }
