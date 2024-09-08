@@ -119,4 +119,37 @@ func Variables() {
 	var heros4 []string
 	heros4 = heros[:delIdx+copy(heros[delIdx:], heros[delIdx+1:])]
 	fmt.Println(heros4) // [エコー エコー]
+
+	// map型
+	// 宣言
+	var m1 map[string]int
+	fmt.Println(m1 == nil) // true 宣言しただけだとnil
+	// m1["ザリア"] = 550 // panic: assignment to entry in nil map
+	
+	// mapを使うにはmakeを使用する
+	m2 := make(map[string]int, 10)
+	m2["ザリア"] = 550
+	fmt.Println(m2) // map[ザリア:550]
+
+	// リテラルで初期値を入れることも可能
+	m3 := map[string]int{
+		"ゼニヤッタ":250,
+		"トレーサー":175,
+		"シンメトラ":275,
+	}
+	m3["ザリア"] = 550
+	fmt.Println(m3)
+
+	// 存在しないキーは値の型のゼロ値
+	fmt.Println(m3["ボブ"]) // 0
+	// キーの有無確認
+	v, ok := m3["シンメトラ"]
+	if ok {
+		fmt.Println(v) // 275
+	}
+
+	// 列挙
+	for k,v := range m3 {
+		fmt.Printf("key: %v value: %v\n",k, v)
+	}
 }
