@@ -46,7 +46,7 @@ func Interface() {
 	var isAny bool
 	if isAny, ok = any1.(bool); !ok {
 		fmt.Println("%v はbool型ではありません\n")
-	}else{
+	} else {
 		fmt.Println(isAny)
 	}
 }
