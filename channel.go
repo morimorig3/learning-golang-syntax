@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func server(ch chan string)  {
+func server(ch chan string) {
 	defer close(ch)
 	ch <- "one"
 	time.Sleep(3 * time.Second)
@@ -15,16 +15,16 @@ func server(ch chan string)  {
 	time.Sleep(3 * time.Second)
 }
 
-func Channel()  {
+func Channel() {
 	var s string
 	ch := make(chan string)
 	go server(ch)
 
-	s = <- ch
+	s = <-ch
 	fmt.Println(s)
-	s = <- ch
+	s = <-ch
 	fmt.Println(s)
-	s = <- ch
+	s = <-ch
 	fmt.Println(s)
-	s = <- ch
+	s = <-ch
 }
