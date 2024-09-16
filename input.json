@@ -1,0 +1,18 @@
+[
+  {
+    "role": "TANK",
+    "description": "ポーク戦術が得意",
+    "features": {
+      "main": 55,
+      "health": 625
+    }
+  },
+  {
+    "role": "TANK",
+    "description": "ダイブ戦術が得意",
+    "features": {
+      "main": 20,
+      "health": 350
+    }
+  }
+]
