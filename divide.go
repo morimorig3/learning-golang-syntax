@@ -14,9 +14,9 @@ func divide(a, b float64) (float64, error) {
 	return a / b, nil
 }
 
-func exitIf(err error, message string){
+func exitIf(err error, message string) {
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "%s: %v",message, err)
+		fmt.Fprintln(os.Stderr, "%s: %v", message, err)
 		os.Exit(1)
 	}
 }
@@ -32,7 +32,7 @@ func Divide() {
 	exitIf(err, "1つ目の引数に浮動小数点を指定してください")
 	b, err := strconv.ParseFloat(os.Args[1], 64)
 	exitIf(err, "1つ目の引数に浮動小数点を指定してください")
-	result, err := divide(a,b)
+	result, err := divide(a, b)
 	exitIf(err, "無効な引数です")
 	fmt.Println(result)
 }
