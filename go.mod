@@ -1,4 +1,4 @@
-module leaning-golan-syntax
+module learning-golang-syntax
 
 go 1.23.0
 
