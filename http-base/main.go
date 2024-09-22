@@ -1,5 +1,5 @@
 package main
 
-func main()  {
-	HttpServe()
+func main() {
+	ThirdPartyRouting()
 }
