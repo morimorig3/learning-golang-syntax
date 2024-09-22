@@ -9,6 +9,11 @@ import (
 
 // curl -X POST -H "Content-Type: application/json" -d '{"Name":"testName"}' localhost:8080
 func HttpServe()  {
+	var f http.HandlerFunc
+	f = func(w http.ResponseWriter, r *http.Request)  {
+		fmt.Fprintf(w, "Hello")
+	}
+	http.Handle("/", f)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		method := r.Method
 		switch method {
