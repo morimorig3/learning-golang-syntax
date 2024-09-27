@@ -1,5 +1,8 @@
 package main
 
+import "os"
+
 func main() {
-	readFileByIoReader()
+	f, _ := os.Open("writeFile.txt")
+	readByBufio(f)
 }
