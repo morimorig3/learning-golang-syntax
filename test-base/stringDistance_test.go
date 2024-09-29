@@ -1,9 +1,19 @@
 package main
 
 import (
+	"log"
+	"os"
 	"reflect"
 	"testing"
 )
+
+// テストの前処理と後処理
+func TestMain(m *testing.M) {
+	log.Println("前処理")
+	ret := m.Run()
+	log.Println("後処理")
+	os.Exit(ret)
+}
 
 func TestStringDistance(t *testing.T) {
 	tests := []struct {
