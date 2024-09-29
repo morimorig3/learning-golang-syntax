@@ -6,13 +6,8 @@ import (
 	"time"
 )
 
-func main(){
-	var wg sync.WaitGroup
-	for i := 0; i < 100; i++ {
-		wg.Add(1)
-		go doSomething(&wg)
-	}
-	wg.Wait()
+func main() {
+	channelBegin()
 }
 
 func doSomething(wg *sync.WaitGroup) {
