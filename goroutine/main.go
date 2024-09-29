@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	funIn()
+	throttling()
 }
 
 func doSomething(wg *sync.WaitGroup) {
