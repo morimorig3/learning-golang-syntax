@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	channelBegin()
+	funIn()
 }
 
 func doSomething(wg *sync.WaitGroup) {
