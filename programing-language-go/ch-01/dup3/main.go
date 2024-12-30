@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
 func main(){
+	start := time.Now()
 	counts := make(map[string]int)
 	fileNames := os.Args[1:]
 	for _, file := range fileNames {
@@ -25,4 +27,5 @@ func main(){
 			}
 		}
 	}
+	fmt.Println(fmt.Sprintf("%.9fs elapsed\n", time.Since(start).Seconds()))
 }

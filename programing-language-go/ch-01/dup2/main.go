@@ -4,9 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"time"
 )
 
 func main() {
+	start := time.Now()
 	counts := make(map[string]int)
 	files := os.Args[1:]
 	if len(files) == 0 {
@@ -27,6 +29,7 @@ func main() {
 			fmt.Printf("%d\t%s\n", n, line)
 		}
 	}
+	fmt.Println(fmt.Sprintf("%.9fs elapsed\n", time.Since(start).Seconds()))
 }
 
 func countLine(f *os.File, counts map[string]int) {
