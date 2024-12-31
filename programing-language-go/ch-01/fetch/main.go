@@ -9,16 +9,16 @@ import (
 	"strings"
 )
 
-func fetch(url string, dst io.Writer) error {	
+func fetch(url string, dst io.Writer) error {
 	const prefix = "http://"
-	if !strings.HasPrefix(url, prefix){
+	if !strings.HasPrefix(url, prefix) {
 		url = prefix + url
 	}
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
 	}
-	_, err = dst.Write([]byte(fmt.Sprintf("Status:%d\n",resp.StatusCode)))
+	_, err = dst.Write([]byte(fmt.Sprintf("Status:%d\n", resp.StatusCode)))
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func fetch(url string, dst io.Writer) error {
 	return err
 }
 
-func main()  {
+func main() {
 	for _, url := range os.Args[1:] {
 		err := fetch(url, os.Stdout)
 		if err != nil {

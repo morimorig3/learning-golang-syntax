@@ -188,3 +188,30 @@ Goでは関数の並列実行をゴルーチンと呼ぶ
 ch := make(chan string)
 go fetch(url, ch)
 ```
+
+## 競合状態の防止
+
+ふたつの並行したリクエストが一度に同じ値を更新しようとした場合
+
+加算／減算が正しく行われない可能性がある
+
+矛盾なく行うために変数をロックする機構が`Mutex`
+
+```
+var mu sync.Mutex
+var count int
+mu.Lock()
+count++
+mu.Unlock()
+fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
+```
+
+## エラーハンドリングを一文で記述することができる
+
+シンプルだし、`error`のスコープ小さく保てるので良い
+
+```
+if err := r.ParseForm(); err != nil {
+    log.Print(err)
+}
+```

@@ -5,9 +5,10 @@ import (
 	"image/color"
 	"image/gif"
 	"io"
+	"log"
 	"math"
 	"math/rand"
-	"os"
+	"net/http"
 	"time"
 )
 
@@ -25,9 +26,15 @@ const (
 	whiteIndex = 1
 )
 
+func handler(w http.ResponseWriter, r *http.Request) {
+	lissajous(w)
+}
+
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
-	lissajous(os.Stdout)
+	// lissajous(os.Stdout) // ファイル出力
+	http.HandleFunc("/", handler)
+	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
 func lissajous(out io.Writer) {
