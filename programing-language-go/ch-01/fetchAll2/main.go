@@ -9,18 +9,14 @@ import (
 	"time"
 )
 
-func main() {
+func fetchAll(urls []string, w io.Writer) {
 	start := time.Now()
 	ch := make(chan string)
-	fmt.Println("before url range")
-	for _, url := range os.Args[1:] {
+	for _, url := range urls {
 		go fetch(url, ch) // URLごとにゴルーチンを生成する
-		fmt.Println("fetched", url)
 	}
-	fmt.Println("fetchedAll")
-	for _, url := range os.Args[1:] {
-		fmt.Println("waiting for channel:", url)
-		fmt.Println(<-ch) // チャネルを受信する
+	for range urls {
+		fmt.Fprintln(w, <-ch) // チャネルを受信する
 	}
 	fmt.Printf("%.3fs elapsed\n", time.Since(start).Seconds())
 }
@@ -40,4 +36,8 @@ func fetch(url string, ch chan<- string) {
 	resp.Body.Close()
 	secs := time.Since(start).Seconds()
 	ch <- fmt.Sprintf("%.3fs\t%d\t%s", secs, w, url)
+}
+
+func main() {
+	fetchAll(os.Args[1:], os.Stdout)
 }
