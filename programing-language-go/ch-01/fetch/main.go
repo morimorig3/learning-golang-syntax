@@ -18,9 +18,12 @@ func fetch(url string, dst io.Writer) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Status:%d\n", resp.StatusCode)
+	_, err = dst.Write([]byte(fmt.Sprintf("Status:%d\n",resp.StatusCode)))
+	if err != nil {
+		return err
+	}
 	_, err = io.Copy(dst, resp.Body)
-	defer resp.Body.Close()
+	resp.Body.Close()
 	return err
 }
 
