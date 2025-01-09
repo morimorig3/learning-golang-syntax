@@ -39,4 +39,5 @@ aiueo
 kakikukeko\n
 sasisuseso`
 	fmt.Println(rs)
+	
 }
