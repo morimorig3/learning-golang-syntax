@@ -171,3 +171,43 @@ for i, _ := range str {
 }
 0 1 2 3 4 5 6 7 10
 ```
+
+### 文字列とバイトスライス
+
+文字列操作の4つのパッケージ
+
+```
+bytes strings strconv unicode
+```
+
+#### strings
+
+文字列の検索、置換、比較、トリミング、分割、連結など文字列操作を行う関数を提供
+
+```
+fmt.Println(strings.Contains("Overwatch", "watch"))
+fmt.Println(strings.Replace("Overwatch Overwatch", "w","p",2))
+fmt.Println(strings.Compare("Overwatch", "Overpatch"))
+fmt.Println(strings.Trim("   Overwatch "," "))
+fmt.Println(strings.Split("Over watch 2"," "))
+fmt.Println(strings.Join(strings.Split("Over watch 2 !"," "), ""))
+```
+
+#### bytes
+
+`[]byte`バイトスライスは文字列と同じ性質を持っている
+
+bytesパッケージは`strings`のバイトスライスバージョン
+
+#### strconv
+
+ブール値、整数値、浮動小数点数値から文字列表現への変換とその逆を行う
+
+文字列はバイトスライスと変換可能
+
+```
+ov := "Overwatch"
+ovb := []byte(ov)
+ovs := string(ovb)
+fmt.Printf("%s\n%s\n", ovb, ovs)
+```
