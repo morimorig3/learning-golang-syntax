@@ -23,25 +23,29 @@ func main() {
 
 // 浮動小数点数を考慮したバージョン
 func comma2(s string) string {
-	dotIndex := strings.LastIndex(s, ".")
-	hasDot := dotIndex > 0
-	if len(s)/3 <= 0 && hasDot {
+	// 3以下の数値はカンマ不要
+	if len(s)/3 <= 0 {
 		return s
 	}
-	var beforeDot, afterDot, sig, result string
+	dot := strings.Index(s, ".") // dotがない場合-1を返す
+	// 浮動小数点数ではない場合
+	if dot < 0 {
+		dot = len(s)
+	}
+	var result string
 	var i int
-	if hasDot {
-		beforeDot = s[:dotIndex]
-		afterDot = s[dotIndex:]
-		} else {
-			beforeDot = s
-		}
+	afterDot := s[dot:]
+	beforeDot := s[0:dot]
+	// 符号
+	sig := ""
 	if s[0] == '-' || s[0] == '+' {
 		sig = string(s[0])
-		beforeDot = beforeDot[1:]
+		// 符号ありの場合、beforeDotから符号を除いておく
+		beforeDot = s[1:dot]
 	}
 	for i = len(beforeDot); i/3 > 0; i -= 3 {
 		var buf bytes.Buffer
+		// 3桁
 		if i-3 > 0 {
 			buf.WriteString(",")
 		}
@@ -49,10 +53,7 @@ func comma2(s string) string {
 		result = string(append(buf.Bytes(), []byte(result)...))
 	}
 	// 最後にコンマ不要の文字列を繋げて完成
-	result = sig + beforeDot[0:i] + result
-	if hasDot {
-		result = result + afterDot
-	}
+	result = sig + beforeDot[0:i] + result + afterDot
 	return result
 }
 
@@ -73,33 +74,6 @@ func comma(s string) string {
 	fmt.Println(i)
 	// 最後にコンマ不要の文字列を繋げて完成
 	result = s[0:i] + result
-
-	return result
-}
-func commaexa(s string) string {
-	if len(s)/3 <= 0 {
-		return s
-	}
-	var result string
-	var i int
-	dot := strings.Index(s, ".")
-	if dot < 0 {
-		dot = len(s)
-	}
-	afterDot := s[dot:]
-	beforeDot := s[0:dot]
-	sig := ""
-	if s[0] == '-' || s[0] == '+' {
-		sig = string(s[0])
-		beforeDot = s[1:dot]
-	}
-	for i = len(beforeDot); i/3 > 0; i -= 3 {
-		var buf bytes.Buffer
-		buf.WriteString(",")
-		buf.WriteString(beforeDot[i-3 : i])
-		result = string(append(buf.Bytes(), []byte(result)...))
-	}
-	result = sig + beforeDot[0:i] + result + afterDot
 
 	return result
 }
