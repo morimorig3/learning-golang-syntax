@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"strconv"
+)
 
 func main() {
 	str1 := "abc"
@@ -9,10 +13,10 @@ func main() {
 	// lenはバイト数を返す
 	fmt.Println(len(str1)) // 3
 	fmt.Println(len(str2)) // 9
-	fmt.Println(len(str3)) // 12 
+	fmt.Println(len(str3)) // 12
 
 	s1 := "hello, world"
-	fmt.Println(len(s1))	
+	fmt.Println(len(s1))
 	fmt.Println(s1[0], s1[7])
 
 	s2 := "bright"
@@ -39,5 +43,22 @@ aiueo
 kakikukeko\n
 sasisuseso`
 	fmt.Println(rs)
-	
+
+	// 数値 -> 文字列
+	fmt.Println(fmt.Sprintf("%d", 1))
+	fmt.Println(strconv.Itoa(1))
+
+	// 数値文字列 -> 数値
+	for _, v := range []string{"1", "A"} {
+		i, err := strconv.ParseInt(v, 10, 64);
+		if err != nil {
+			fmt.Fprintf(os.Stdout, "%v", err)
+		}
+		fmt.Println(i)
+		j, err := strconv.Atoi(v);
+		if err != nil {
+			fmt.Fprintf(os.Stdout, "%v", err)
+		}
+		fmt.Println(j)
+	}
 }

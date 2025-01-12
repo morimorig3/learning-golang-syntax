@@ -211,3 +211,11 @@ ovb := []byte(ov)
 ovs := string(ovb)
 fmt.Printf("%s\n%s\n", ovb, ovs)
 ```
+
+### 文字列と数値の変換
+
+```
+// 数値 -> 文字列
+fmt.Sprintf("%d", 1)
+strconv.Itoa(1) // Integer to ASCII
+```
