@@ -219,3 +219,51 @@ fmt.Printf("%s\n%s\n", ovb, ovs)
 fmt.Sprintf("%d", 1)
 strconv.Itoa(1) // Integer to ASCII
 ```
+
+### 定数
+
+実行時ではなくコンパイル時に評価が行われることが保証されている式
+
+複数宣言することもできる
+
+```
+const pi = 3.14159
+
+const (
+    e = 2.71828
+    pi = 3.14159
+)
+```
+
+定数式を配列型の長さのように使用できる
+```
+const IPv4Len = 4
+var p [IPv4Len]byte // var p [4]byte
+```
+
+定数の型は右辺から推定される
+```
+const noDelay time.Duration = 0
+const timeout = 5 * time.Minute
+fmt.Printf("%T\t%[1]v\n", noDelay) // time.Duration   0s
+fmt.Printf("%T\t%[1]v\n", timeout) // time.Duration   5m0s
+fmt.Printf("%T\t%[1]v\n", time.Minute) // time.Duration   1m0s
+```
+
+#### iota
+
+定数宣言では定数生成器（constant generator）を使用できる
+
+```
+type WeekDay int
+const (
+    Sunday WeekDay = iota
+    Monday
+    Tuesday
+    Wednesday
+    Thursday
+    Friday
+    Saturday
+)
+fmt.Println(Sunday, Monday, Tuesday,Wednesday,  Thursday, Friday, Saturday) // 0 1 2 3 4 5 6
+```
