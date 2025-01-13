@@ -48,7 +48,10 @@ func main() {
 	s = []int{}
 	fmt.Printf("len(s) == %d, s == nil:%v\n",len(s),s == nil)
 
+	ms := make([]int,3)
+	fmt.Printf("type:%[1]T\tv:%[1]v\tcap:%d\n", ms, cap(ms))
 }
+
 
 // intのスライスを直接逆順に並び替える
 func reverse(s []int) {

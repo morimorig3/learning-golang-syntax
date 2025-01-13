@@ -154,3 +154,41 @@ fmt.Printf("len(s) == %d, s == nil:%v\n",len(s),s == nil)
 ```
 len(s) == 0
 ```
+
+### 組み込み関数make
+
+指定した型の長さ、容量のスライスを作成する
+
+`make([]T, len, cap)`
+
+```
+s := make([]int, 3)
+s := make([]int, 3, 3)
+```
+
+実際には、無名配列変数を作成してそれのスライスを返す
+
+### 組み込み関数append
+
+append関数はスライスに項目を追加する
+
+```
+var x []int
+x = append(x, 1)
+x = append(x, 2, 3)
+x = append(x, 4, 5, 6)
+x = append(x, x...)
+fmt.Println(x) // [1 2 3 4 5 6 1 2 3 4 5 6]
+```
+
+スライスには長さと容量の概念があるので、容量に余裕がない場合新たな配列の再割り当てが発生する
+
+```
+x := []int{1, 2}
+fmt.Println(cap(x)) // 容量2
+x = append(x, 3)
+fmt.Println(len(x)) // 長さ3
+// 1要素追加するのでlen=cap=3になるかと思いきや
+// 容量は長さよりも多めに確保される
+fmt.Println(cap(x)) // 容量4
+```
