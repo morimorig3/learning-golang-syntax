@@ -192,3 +192,82 @@ fmt.Println(len(x)) // 長さ3
 // 容量は長さよりも多めに確保される
 fmt.Println(cap(x)) // 容量4
 ```
+
+## マップ
+
+マップはハッシュテーブルへの参照
+
+`map[K]V`
+
+Kの型はすべて同一である必要があり、Vの型もすべて同一である必要がある
+
+KとVの型は異なっていても良い
+
+Kの型は比較可能でなければならない
+そのため、intやfloat型などNaNがあり得る値は良くない
+
+```
+ages := make(map[string]int)
+fmt.Println(ages) // map[]
+```
+
+組み込み関数でもmapを作成できる
+
+mapの作成方法
+
+```
+// マップリテラル
+ages := map[string]int{
+    "alice": 31,
+    "charlie": 34,
+}
+
+ages := make(map[string]int)
+ages["alice"] = 31
+ages["charlie"] = 34
+```
+
+要素の削除は組み込み関数deleteで行う
+存在しない要素を削除しようとしても安全
+
+```
+delete(ages2, "charlie")
+fmt.Println(ages2)
+delete(ages2, "bob")
+```
+
+要素の列挙
+要素の順序は実行ごとにランダムである
+
+```
+for k, v := range ages3 {
+    fmt.Printf("key=%s\tvalue=%d\n", k, v)
+}
+// key=alice       value=31
+// key=charlie     value=34
+```
+
+順序を決める場合はソートをする
+ソートした名前の配列を作成して配列をループさせる
+
+```
+var names []string
+for name := range ages3 {
+    names = append(names, name)
+}
+sort.Strings(names)
+for _, name := range names {
+    fmt.Printf("%s\t%d\n", name, ages3[name])
+}
+```
+
+値の取得
+mapへのインデックス指定による値取得は常に値を返す
+
+```
+age3charlie, ok := ages3["charlie"]
+fmt.Println(age3charlie, ok) // 34 true
+
+age3bob, ok := ages3["bob"]
+fmt.Println(age3bob, ok) // 0 false
+```
