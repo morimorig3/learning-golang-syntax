@@ -271,3 +271,7 @@ fmt.Println(age3charlie, ok) // 34 true
 age3bob, ok := ages3["bob"]
 fmt.Println(age3bob, ok) // 0 false
 ```
+
+### Set
+
+GoではSetは存在しないが、mapはキー重複しないのでSetとして使用できる

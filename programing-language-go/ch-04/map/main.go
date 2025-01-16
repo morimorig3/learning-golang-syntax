@@ -42,4 +42,28 @@ func main() {
 
 	age3bob, ok := ages3["bob"]
 	fmt.Println(age3bob, ok) // 0 false
+
+	fmt.Println(equal(map[string]int{"A": 1}, map[string]int{"A": 1}))
+	fmt.Println(equal(map[string]int{"A": 1}, map[string]int{"B": 1}))
+	fmt.Println(equal(map[string]int{"A": 0}, map[string]int{"A": 0}))
+
+	// キーがスライスであるマップを作成する例
+	s := []string{"a"}
+	sm := make(map[string]int)
+	sm[k(s)] = 1
+	fmt.Println(sm)
+}
+
+func k(list []string) string { return fmt.Sprintf("%q", list) }
+
+func equal(x, y map[string]int) bool {
+	if len(x) != len(y) {
+		return false
+	}
+	for k, v := range x {
+		if yv, ok := y[k]; !ok || v != yv {
+			return false
+		}
+	}
+	return true
 }
