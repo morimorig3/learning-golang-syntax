@@ -427,3 +427,74 @@ w3 := Wheel{Circle: Circle{
 
 埋め込みはフィールドだけでなくメソッドも得ることができる
 どちらかといえばこちらが重要で後の章で学んでいく
+
+## JSON
+
+構造化された情報を送受信するための標準表記
+
+そのほかにもXMLやASN.1などの構造体があるが、簡潔性、可読性、多方面へのサポートによりJSONが幅広く使用されている
+
+Goでは`encoding/json`でJSONを扱うことができる
+
+Go構造体からJSONへ変換（マーシャリング）
+公開されるフィールドだけがマーシャリングされる
+
+```
+data, err := json.Marshal(movies)
+if err != nil {
+    log.Fatalf("JSON marshaling failed: %s", err)
+}
+fmt.Printf("%s\n", data)
+```
+
+`json.MarshalIndent`で人が読みやすい形式に変換もできる
+
+```
+data, err = json.MarshalIndent(movies, "", "\t")
+if err != nil {
+    log.Fatalf("JSON marshaling failed: %s", err)
+}
+fmt.Printf("%s\n", data)
+```
+
+JSONからGo構造体へ変換（アンマーシャリング）
+
+```
+var titles []struct{ Title string }
+if err := json.Unmarshal(data, &titles); err != nil {
+    log.Fatalf("JSON unmarshaling failed: %s", err)
+}
+fmt.Println(titles)
+
+// もちろんすべてアンマーシャルも可能
+var movies2 []Movie
+if err := json.Unmarshal(data, &movies2); err != nil {
+    log.Fatalf("JSON unmarshaling failed: %s", err)
+}
+fmt.Printf("%#v", movies2)
+```
+
+## テキストテンプレートとHTMLテンプレート
+
+テンプレートはアクション`{{...}}`と呼ばれる二重波括弧で囲われた部分を1個以上含んでいる
+
+```
+const templ = `{{.TotalCount}} issues:
+{{range .Items}}--------------------------
+Number: {{.Number}}
+User: {{.User.Login}}
+Title: {{.Title | printf "%.64s"}}
+Age: {{.CreatedAt | daysAgo}} days
+{{end}}`
+
+report, err := template.New("report").
+    Funcs(template.FuncMap{"daysAgo": daysAgo}).
+    Parse(templ)
+
+if err := report.Execute(os.Stdout, result); err != nil {
+    log.Fatal(err)
+}
+```
+
+`html/template`は、HTML/JavaScript/CSSを自動的にエスケープする機能がある
+これはインジェクション攻撃の防止に役に立つ
