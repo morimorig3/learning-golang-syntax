@@ -275,3 +275,155 @@ fmt.Println(age3bob, ok) // 0 false
 ### Set
 
 GoではSetは存在しないが、mapはキー重複しないのでSetとして使用できる
+
+## 構造体
+
+合成データ型で、0個以上の任意の型の名前付き値をまとめたもの
+
+それぞれの値をフィールドを呼ぶ
+
+典型的な構造体例の従業員
+```
+type Employee struct {
+	ID        int       // 一意なID
+	Name      string    // 従業員名
+	Address   string    // 住所
+	DoB       time.Time // 誕生日
+	Position  string    // 職位
+	Salary    int       // 給与
+	ManagerID int       // 管理者
+}
+```
+
+フィールドの名前は大文字で宣言されれば公開される
+
+```
+// ドット表記でアクセスできる
+ai.Salary += 10
+ai.Position = "student"
+
+// フィールドのポインタを通してアクセスもできる
+position := &ai.Position
+// 実体参照して代入
+*position = "high school " + *position
+```
+
+### 構造体リテラル
+
+省略した場合、ゼロ値じへ設定される
+
+```
+// すべて列挙する書き方
+p1 := Point{1, 2}
+fmt.Println(p1) // {1 2}
+
+// 1部を省略する書き方
+p2 := Point{X: 1}
+fmt.Println(p2) // {1 0}
+```
+
+構造体の値は関数に渡したり関数から返すことができる
+
+```
+func Scale(p Point, factor int) Point {
+	return Point{p.X * factor, p.Y * factor}
+}
+fmt.Println(Scale(p1, 2)) // {2 4}
+```
+
+サイズの大きな構造体の場合は効率性のためにポインターを使って間接的に渡される
+
+Goでは関数は引数のコピーを受け取るので、直接修正する必要がある場合はポインターを使う必要がある
+
+```
+func ScalePointer(p *Point, factor int) *Point {
+	p.X *= factor
+	p.Y *= factor
+	return p
+}
+```
+
+### 構造体の比較
+
+構造体のすべてのフィールドが比較可能であれば、構造体も比較可能
+比較可能なので、mapのキーにも使用できる
+
+```
+p1c := Point{1, 2}
+p2c := Point{1, 2}
+// 以下は同義
+fmt.Println(p1c == p2c)
+fmt.Println(p1c.X == p2c.X && p1c.Y == p2c.Y)
+```
+
+Goは2つの構造体に対応するフィールドを順番に比較する
+
+### 構造体埋め込みと無名フィールド
+
+構造体を入れ子にして定義することができるが・・・
+
+```
+type Point struct {
+	X, Y int
+}
+
+type Circle struct {
+	Center Point
+	Radius int
+}
+
+type Wheel struct {
+	Circle Circle
+	Spokes int
+}
+
+// アプリケーションは明瞭になるがWheelフィールドへのアクセスが面倒
+var w Wheel
+w.Circle.Center.X = 8
+w.Circle.Center.Y = 8
+w.Circle.Radius = 5
+w.Spokes = 20
+```
+
+`Point`と`Circle`を埋め込む
+
+```
+type Point struct {
+	X, Y int
+}
+
+type Circle struct {
+	Point
+	Radius int
+}
+
+type Wheel struct {
+	Circle
+	Spokes int
+}
+// 埋め込みのおかげで中間の値を書くことなく木の葉の部分を参照できる
+var w Wheel
+w.X = 8
+w.Y = 8
+w.Radius = 5
+w.Spokes = 20
+```
+
+ただし、構造体リテラル表記では省略できない
+
+```
+// w2 := Wheel{1,2,3,4,5} コンパイルエラー
+
+// いずれかを使用する必要がある
+w2 := Wheel{Circle{Point{1, 2}, 5}, 20}
+w3 := Wheel{Circle: Circle{
+    Point: Point{
+        X: 8,
+        Y: 8},
+    Radius: 5},
+    Spokes: 20,
+}
+```
+
+埋め込みはフィールドだけでなくメソッドも得ることができる
+どちらかといえばこちらが重要で後の章で学んでいく
