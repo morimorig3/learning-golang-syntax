@@ -8,6 +8,14 @@ func main() {
 	fmt.Printf("%T\n", sub)
 	fmt.Printf("%T\n", first)
 	fmt.Printf("%T\n", zero)
+
+	// 関数は代入できる
+	f := add
+	fmt.Println(f(1, 2)) // 3
+
+	// 関数値の初期値はnil
+	var f1 func(int) int
+	fmt.Println(f1) // nil
 }
 
 func add(x int, y int) int   { return x + y }
