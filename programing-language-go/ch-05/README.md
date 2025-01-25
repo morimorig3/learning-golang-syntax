@@ -245,3 +245,53 @@ fmt.Println(f(1, 2)) // 3
 var f1 func(int) int
 fmt.Println(f1) // nil
 ```
+
+## 無名関数
+
+名前付き関数はパッケージレベルでしか宣言できない
+無名関数はすべての式内で使用できる
+
+```
+// 関数内で宣言できない
+func main() {
+	// コンパイルエラー
+	func add(x, y int) int {
+		return x + y
+	}
+}
+```
+
+無名関数は式なので関数内でも作成できる
+```
+func main() {
+	something := func (x, y int) int {
+		return x + y
+	}
+	something(1,2)// 3
+}
+```
+
+関数値として渡す関数にも使用可能
+```
+// 標準関数であるstrings.Mapを使用した例
+fmt.Println(strings.Map(func(r rune) rune { return r + 1 }, "HAL-0001"))
+```
+
+### クロージャを使うことができる
+
+
+```
+func square() func() int {
+	var x int
+	return func() int {
+		x++
+		return x * x
+	}
+}
+
+f2 := square()
+fmt.Println(f2()) // 1
+fmt.Println(f2()) // 4
+fmt.Println(f2()) // 9
+fmt.Println(f2()) // 16
+```
