@@ -39,6 +39,13 @@ func main() {
 	fmt.Println(f2())
 	fmt.Println(f2())
 
+	// 可変個引数の渡し方
+	fmt.Println(sum(1, 2, 3, 4, 5))
+	values := []int{1, 2, 3, 4, 5}
+	fmt.Println(sum(values...))
+
+	fmt.Printf("T: %T\n", sum)
+	fmt.Printf("T: %T\n", sum1)
 }
 
 func add(x int, y int) int   { return x + y }
@@ -52,4 +59,21 @@ func square() func() int {
 		x++
 		return x * x
 	}
+}
+
+// 可変個引数関数
+func sum(vals ...int) int { // vals []int
+	total := 0
+	for _, val := range vals {
+		total += val
+	}
+	return total
+}
+
+func sum1(vals []int) int {
+	total := 0
+	for _, val := range vals {
+		total += val
+	}
+	return total
 }

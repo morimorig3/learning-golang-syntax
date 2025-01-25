@@ -295,3 +295,49 @@ fmt.Println(f2()) // 4
 fmt.Println(f2()) // 9
 fmt.Println(f2()) // 16
 ```
+
+## 可変個引数関数
+
+任意の数の引数を受け取る関数を定義できる
+
+```
+fmt.Errof("Pasing %s: %v", url, err)
+```
+
+呼び出しもとは、暗黙的に配列を割り当てて、引数をその配列へコピーして関数にその配列全体のスライスを渡す
+
+1. 配列作成
+2. 配列全体を示すスライスを作成
+3. 関数に渡す
+
+```
+func sum(vals ...int) int { // vals []int
+	total := 0
+	for _, val := range vals {
+		total += val
+	}
+	return total
+}
+```
+
+引数の渡し方
+```
+// 可変個引数の渡し方
+fmt.Println(sum(1, 2, 3, 4, 5))
+values := []int{1, 2, 3, 4, 5}
+fmt.Println(sum(values...))
+```
+
+スライスを受け取る関数と振る舞いは同じだが型は異なる。。
+
+```
+func sum1(vals []int) int {
+	total := 0
+	for _, val := range vals {
+		total += val
+	}
+	return total
+}
+fmt.Printf("T: %T\n", sum) // T: func(...int) int
+fmt.Printf("T: %T\n", sum1) // T: func([]int) int
+```
