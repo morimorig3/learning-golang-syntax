@@ -341,3 +341,56 @@ func sum1(vals []int) int {
 fmt.Printf("T: %T\n", sum) // T: func(...int) int
 fmt.Printf("T: %T\n", sum1) // T: func([]int) int
 ```
+
+## 遅延関数呼び出し
+
+複雑な関数を書いていると、ネットワーク接続の閉じ忘れなど
+保守上の問題が発生するコードが生み出される場合がある
+
+その問題を解決してくれるのが`defer`の仕組みである
+
+複数のClose処理がある
+後処理の重複は保守していく上で課題となる
+
+```
+resp, err := http.Get(url)
+if err != nil {
+	return err
+}
+ct := resp.Header.Get("Content-Type")
+if ct != "text/html" && !strings.HasPrefix(ct, "text/html;") {
+	resp.Body.Close()
+	return fmt.Errorf("%s has type %s, not text/html", url, ct)
+}
+
+doc, err := html.Parse(resp.Body)
+resp.Body.Close()
+if err != nil {
+	return fmt.Errorf("parsing %s as HTML: %v", url, err)
+}
+```
+
+deferを使用することで一箇所にまとめることができる
+
+```
+resp, err := http.Get(url)
+if err != nil {
+	return err
+}
+defer resp.Body.Close()
+```
+
+### defer文
+
+defer文は普通の関数やメソッドの呼び出し前に`defer`をつけて使用する
+
+関数と引数の式はdefer文が実行される時に評価されるが、実際の呼び出しはdefer文を含む関数が完了するまで遅延される
+
+returnであっても、関数の最後に到達したときのような正常な終了でも、パニックによる異常な終了でも実行される
+
+呼び出し順は遅延された順序の逆順に実行される
+
+```
+defer f() // 実行順序2
+defer f2() // 実行順序1
+```
