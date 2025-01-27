@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"time"
 )
@@ -9,7 +10,8 @@ func main() {
 	defer trace("bigSlowOperation")()
 
 	defer trace("opera")()
-	time.Sleep(5 * time.Second)
+
+	double(4)
 }
 
 func trace(msg string) func() {
@@ -18,4 +20,11 @@ func trace(msg string) func() {
 	return func() {
 		log.Printf("exit %s (%s)", msg, time.Since(start))
 	}
+}
+
+func double(x int) (result int) {
+	defer func() {
+		fmt.Printf("double(%d) = %d\n", x, result)
+	}()
+	return x + x
 }

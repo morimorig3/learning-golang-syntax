@@ -394,3 +394,53 @@ returnであっても、関数の最後に到達したときのような正常�
 defer f() // 実行順序2
 defer f2() // 実行順序1
 ```
+
+デバッグなどでも役に立つ
+どのような引数で呼び出されたか知ることができる
+
+```
+func double(x int) (result int) {
+	defer func() {
+		fmt.Printf("double(%d) = %d\n", x, result)
+	}()
+	return x + x
+}
+```
+
+#### ループ内でのdefer文
+
+defer文は関数の最後の行まで実行されないので、ループ内で使用する場合は気をつけなければならない
+
+```
+for _, filename := range filenames {
+	f, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	// 処理
+}
+```
+
+この場合、関数が終了するまですべてのクローズが行われない
+メモリが枯渇する可能性がある
+
+閉じる処理を関数に閉じ込めることで回避できる
+```
+for _, filename := range filenames {
+	err := doFile(filename)
+	if err != nil {
+		return err
+	}
+}
+
+func doFile(filename string) error {
+	f, err := os.Open(filename)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	// 処理
+}
+```
+
