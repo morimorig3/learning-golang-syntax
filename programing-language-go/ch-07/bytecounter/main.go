@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 	var c ByteCounter
@@ -11,6 +13,7 @@ func main() {
 	var name = "Dolly"
 	fmt.Fprintf(&c, "hello, %s", name)
 	fmt.Println(c)
+
 }
 
 type ByteCounter int
